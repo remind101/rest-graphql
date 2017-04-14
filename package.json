@@ -1,0 +1,16 @@
+{
+  "name": "rest-graphql",
+  "version": "1.0.0",
+  "description": "Middleware for Express to adapt REST requests to GraphQL queries",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "graphql",
+    "rest",
+    "express"
+  ],
+  "author": "Gaurav Kulkarni <gaurav@remindhq.com>",
+  "license": "MIT"
+}
