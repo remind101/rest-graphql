@@ -2,10 +2,10 @@
   "name": "rest-graphql",
   "version": "1.0.0",
   "description": "Middleware for Express to adapt REST requests to GraphQL queries",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "build": "babel src -d build"
+    "prepublish": "babel src -d dist && ./node_modules/.bin/flow gen-flow-files src/index.js > dist/index.js.flow"
   },
   "keywords": [
     "graphql",
