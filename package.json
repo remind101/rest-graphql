@@ -13,4 +13,8 @@
   ],
   "author": "Gaurav Kulkarni <gaurav@remindhq.com>",
   "license": "MIT"
+  "dependencies": {
+    "express": "^4.15.2",
+    "lodash": "^4.17.4"
+  }
 }
