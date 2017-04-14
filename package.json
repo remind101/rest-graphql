@@ -1,6 +1,6 @@
 {
   "name": "rest-graphql",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Middleware for Express to adapt REST requests to GraphQL queries",
   "main": "dist/index.js",
   "scripts": {
@@ -26,7 +26,6 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "flow": "^0.2.3",
     "jest": "^19.0.2",
     "supertest": "^3.0.0"
   },
