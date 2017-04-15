@@ -6,7 +6,7 @@ Middleware for Express to adapt REST requests to GraphQL queries
 ## Motivation
 - You've built a GraphQL server, and it's ready to use. 
 - Not all your clients speak GraphQL. At the very least, legacy mobile clients can't make GraphQL requests. 
-- Supporting multiple client/server contracts is a nightmare
+- You don't want to support both legacy and GraphQL client/server contracts simultaneously
 
 `rest-graphql` provides middleware that lets you define mappers from REST requests to graphql queries that fetch the same data, letting you normalize all client queries into something your GraphQL server can handle.
 
