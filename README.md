@@ -4,7 +4,11 @@ Middleware for Express to adapt REST requests to GraphQL queries
 [![NPM](https://nodei.co/npm/rest-graphql.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/rest-graphql/)
 
 ## Motivation
-You've built a GraphQL server, and it's ready to use. However you've got multiple clients consuming your API and not all of them have a strong GraphQL client to plug in, and must continue to communicate via a REST-like interface with your server. Having different clients speak different protocols is a nightmare, and you just want every request to be a GraphQL query. rest-graphql provides middleware that lets you define mappers from REST requests to graphql queries that fetch the same data, letting you normalize all client queries into something your GraphQL server can handle, regardless of whether all your clients have made the full switch to GraphQL. Also it allows you to transition legacy native mobile clients to use your GraphQL server so you don't need to maintain something separate to support those old clients.
+- You've built a GraphQL server, and it's ready to use. 
+- Not all your clients speak GraphQL. At the very least, legacy mobile clients can't make GraphQL requests. 
+- Supporting multiple client/server contracts is a nightmare
+
+`rest-graphql` provides middleware that lets you define mappers from REST requests to graphql queries that fetch the same data, letting you normalize all client queries into something your GraphQL server can handle.
 
 ## Quick Start
 Install the package
@@ -58,6 +62,12 @@ app.use(createAdapter([profileConfig])); // The rest-graphql middleware. It take
 
 Which would result in:
 
-**Request:** `GET https://api.test.com/profile/9`
+**Request:**
+```
+GET https://api.test.com/profile/9
+```
 
-**Response:** `{ profile_photo: { url: "someurl" }, first_name: "Gaurav", last_name: "Kulkarni"}`
+**Response:** 
+```
+{ profile_photo: { url: "someurl" }, first_name: "Gaurav", last_name: "Kulkarni"}
+```
