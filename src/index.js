@@ -10,7 +10,7 @@ type RestAdapterConfig = {
 
 export type { RestAdapterConfig };
 
-export const createApp = (configs: Array<RestAdapterConfig>) => {
+export const createAdapter = (configs: Array<RestAdapterConfig>) => {
   const app = express();
 
   map(configs, config => {
