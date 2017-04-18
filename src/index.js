@@ -1,6 +1,5 @@
 /* @flow */
 import express from 'express';
-import { map } from 'lodash';
 
 type RestAdapterConfig = {
   path: string, 
@@ -13,7 +12,7 @@ export type { RestAdapterConfig };
 export const createAdapter = (configs: Array<RestAdapterConfig>) => {
   const app = express();
 
-  map(configs, config => {
+  configs.map(config => {
     app.get(config.path, (req, res, next) => {
       const query = config.getQuery(req);
       req.url = '/graphql';

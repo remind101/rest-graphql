@@ -1,6 +1,6 @@
 import express from 'express';
 import request from 'supertest';
-import { createApp, RestAdapterConfig } from '../index';
+import { createAdapter, RestAdapterConfig } from '../index';
 
 const testQuery = `
   query TestQuery {
@@ -19,7 +19,7 @@ const testConfig = {
 
 describe('requests', () => {
   const app = express();
-  app.use(createApp([testConfig]));
+  app.use(createAdapter([testConfig]));
   app.use('/graphql', (req, res) => {
     return Promise.resolve(req.body.query).then(query => {
       expect(query).toEqual(testQuery);
