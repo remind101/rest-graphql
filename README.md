@@ -71,3 +71,7 @@ GET https://api.test.com/profile/9
 ```
 { profile_photo: { url: "someurl" }, first_name: "Gaurav", last_name: "Kulkarni"}
 ```
+
+## Error Handling
+
+Error handling is currently built to work with request-promise and looks for any [StatusCodeErrors](https://github.com/request/promise-core/blob/master/lib/errors.js#L22) that are thrown and parses those.
