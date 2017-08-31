@@ -1,32 +1,32 @@
 /* @flow */
 import express from 'express';
 
-type RestAdapterConfigResponse = {
+type RestAdapterResponse = {
   body: Object,
   status: number,
 };
 
-export type Config = {
+export type RestAdapterConfig = {
   isError: (response: Object) => boolean,
-  transformError: (response: Object) => RestAdapterConfigResponse,
+  transformError: (response: Object) => RestAdapterResponse,
 };
 
-export type EndpointConfig = {
+export type RestAdapterEndpointConfig = {
   path: string,
   getQuery(req: express.Request): string,
-  transformSuccess: (response: Object) => RestAdapterConfigResponse,
+  transformSuccess: (response: Object) => RestAdapterResponse,
 };
 
 export default class RestAdapter {
-  config: Config
+  config: RestAdapterConfig
   app: *
 
-  constructor(config: Config) {
+  constructor(config: RestAdapterConfig) {
     this.config = config;
     this.app = express();
   }
 
-  addEndpoint(endpointConfig: EndpointConfig) {
+  addEndpoint(endpointConfig: RestAdapterEndpointConfig) {
     this.app.get(endpointConfig.path, (req: express.Request, res: express.Response, next: Function) => {
       req.url    = '/graphql';
       req.method = 'POST';

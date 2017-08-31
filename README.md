@@ -33,8 +33,8 @@ import RestAdapter from 'rest-graphql';
 
 /* Build a new adapter
  *
- * isError        - detect is the graphql query has failed.
- * transformError - transform the graphql errors into a rest response.
+ * isError        - Detect is the graphql query has failed.
+ * transformError - Transform the failed query response into a RestAdapterResponse.
  *
  */
 const adapter = new RestAdapter({
@@ -45,8 +45,8 @@ const adapter = new RestAdapter({
 /* Add endpoints to the adapter:
  *
  * path             - The REST endpoint.
- * getQuery         - Function returning a Graphql Query as a String.
- * transformSuccess - Function to transform successful query into a rest response.
+ * getQuery         - Function returning a Graphql query as a String.
+ * transformSuccess - Transform the successful query response into a RestAdapterResponse.
  */
 adapter.addEndpoint({
   path: '/presidents',
@@ -94,7 +94,7 @@ query PresidentQuery {
 ## Error Handling
 
 To transform Graphql query errors into the REST responses we recommend using something similar to
-[https://github.com/apollographql/apollo-server#options](apollo-server) formatError options. In the above example we format the HTTP errors like the following:
+[apollo-server](https://github.com/apollographql/apollo-server#options) formatError options. In the above example we format the HTTP errors like the following:
 
 ```json
 {
@@ -104,7 +104,9 @@ To transform Graphql query errors into the REST responses we recommend using som
       "message": "Internal server error",
       "__http_secret__": {
         "status": 500,
-        "message": "Internal server error",
+        "body": {
+          "message": "Internal server error"
+        }
       },
     },
   ]
