@@ -1,49 +1,61 @@
 /* @flow */
 import express from 'express';
 
-type RestAdapterConfig = {
-  path: string, 
-  getQuery: (request: express.Request) => string,
-  transformResponse: (response: Object) => Object,
+type RestAdapterResponse = {
+  body: Object,
+  status: number,
 };
 
-export type { RestAdapterConfig };
+export type RestAdapterConfig = {
+  isError: (response: Object) => boolean,
+  transformError: (response: Object) => RestAdapterResponse,
+};
 
-export const createAdapter = (configs: Array<RestAdapterConfig>) => {
-  const app = express();
+export type RestAdapterEndpointConfig = {
+  path: string,
+  getQuery(req: express.Request): string,
+  transformSuccess: (response: Object) => RestAdapterResponse,
+};
 
-  configs.map(config => {
-    app.get(config.path, (req, res, next) => {
-      const query = config.getQuery(req);
-      req.url = '/graphql';
+export default class RestAdapter {
+  config: RestAdapterConfig
+  app: *
+
+  constructor(config: RestAdapterConfig) {
+    this.config = config;
+    this.app = express();
+  }
+
+  addEndpoint(endpointConfig: RestAdapterEndpointConfig) {
+    this.app.get(endpointConfig.path, (req: express.Request, res: express.Response, next: Function) => {
+      req.url    = '/graphql';
       req.method = 'POST';
-      req.body = { query };
+      req.body   = { query: endpointConfig.getQuery(req) };
 
-      // Replace response writer with writer that transforms to a REST compatible response
-      const write = res.write;
-      res.write = function transformedWrite(string) {
-        const writeError = err => {
-          const [status, message] = err.message.split(' - ');
-          res.status(status);
-          write.call(this, message);
-        };
+      const config = this.config;
+      const write  = res.write;
 
-        const messageJSON = JSON.parse(string);
-        if (messageJSON.errors) {
-          writeError(messageJSON.errors[0]);
+      res.write = function(grapqhRawResponse) {
+        const grapqhResponse = JSON.parse(grapqhRawResponse);
+        const isError = config.isError(grapqhResponse);
+
+        const response = isError
+          ? config.transformError(grapqhResponse)
+          : endpointConfig.transformSuccess(grapqhResponse);
+
+        if (response.body instanceof Object) {
+          res.setHeader('Content-Type', 'application/json');
         } else {
-          try {
-            const transformedJSON = config.transformResponse(messageJSON);
-            write.call(this, JSON.stringify(transformedJSON));
-          } catch (err) {
-            writeError(err);
-          }
+          res.setHeader('Content-Type', 'text/html');
         }
+
+        const body = response.body instanceof Object ? JSON.stringify(response.body) : response.body;
+
+        res.status(response.status);
+        write.call(this, body);
       };
 
       next();
     });
-  });
-
-  return app;
-};
+  }
+}
