@@ -35,13 +35,13 @@ export default class RestAdapter {
       const config = this.config;
       const write  = res.write;
 
-      res.write = function(grapqhRawResponse) {
-        const grapqhResponse = JSON.parse(grapqhRawResponse);
-        const isError = config.isError(grapqhResponse);
+      res.write = function(graphqlRawResponse) {
+        const graphqlResponse = JSON.parse(graphqlRawResponse);
+        const isError = config.isError(graphqlResponse);
 
         const response = isError
-          ? config.transformError(grapqhResponse)
-          : endpointConfig.transformSuccess(grapqhResponse);
+          ? config.transformError(graphqlResponse)
+          : endpointConfig.transformSuccess(graphqlResponse);
 
         if (response.body instanceof Object) {
           res.setHeader('Content-Type', 'application/json');
