@@ -51,6 +51,10 @@ export default class RestAdapter {
 
         const body = response.body instanceof Object ? JSON.stringify(response.body) : response.body;
 
+        if (res.getHeader('Content-Length') != null) {
+          res.setHeader('Content-Length', Buffer.byteLength(body, 'utf8'));
+        }
+
         res.status(response.status);
         write.call(this, body);
       };
