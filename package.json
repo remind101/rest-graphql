@@ -44,7 +44,5 @@
   "eslintConfig": {
     "parser": "babel-eslint"
   },
-  "peerDependencies": {
-    "request-promise": "*"
-  }
+  "peerDependencies": {}
 }
