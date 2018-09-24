@@ -1,6 +1,6 @@
 {
   "name": "rest-graphql",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Middleware for Express to adapt REST requests to GraphQL queries",
   "main": "dist/index.js",
   "scripts": {
